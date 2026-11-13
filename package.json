@@ -1,0 +1,32 @@
+{
+  "name": "business-command-center",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "import:bank": "node scripts/import-bank.mjs",
+    "seed:stripe": "node scripts/seed-stripe.mjs",
+    "dev:functions": "vite build && npx wrangler pages dev dist --port 8788",
+    "email:dev": "node scripts/pick-bank.mjs && node -e \"const f=require('fs'); if (f.existsSync('.dev.vars')) f.copyFileSync('.dev.vars','email-worker/.dev.vars')\" && npx wrangler dev --config email-worker/wrangler.toml --var ALLOW_PREVIEW:1 --test-scheduled --port 8790",
+    "email:deploy": "node scripts/pick-bank.mjs && npx wrangler deploy --config email-worker/wrangler.toml",
+    "deploy": "node scripts/deploy.mjs",
+    "setup:bank-store": "node scripts/setup-bank-store.mjs",
+    "secrets:push": "node scripts/push-secrets.mjs"
+  },
+  "config": {
+    "pagesProject": "business-command-center"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "tailwindcss": "^4.1.0",
+    "vite": "^8.3.6"
+  }
+}
